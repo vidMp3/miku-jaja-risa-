@@ -185,10 +185,7 @@ let mixer;
 const modelBasePosition = new THREE.Vector3(0.5, 0, 0); // Desplazado al tercio derecho
 
 const loader = new GLTFLoader();
-const isLiveServerProjectFolder = window.location.pathname.includes('/02-Starter/');
-const modelUrl = isLiveServerProjectFolder
-  ? './public/modelos/personaje.glb'
-  : '/modelos/personaje.glb';
+const modelUrl = `${import.meta.env.BASE_URL}modelos/personaje.glb`;
 
 function frameModel(model) {
   const initialBounds = new THREE.Box3();
