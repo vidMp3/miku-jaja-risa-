@@ -13,12 +13,13 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
+const isMobileViewport = () => window.matchMedia('(max-width: 700px)').matches;
 const baseCameraPos = new THREE.Vector3(0, 1.2, 3.8);
 camera.position.copy(baseCameraPos);
 
 const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobileViewport() ? 1.5 : 2));
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -151,6 +152,7 @@ window.addEventListener('touchstart', (e) => {
 window.addEventListener('touchend', () => { isDragging = false; });
 window.addEventListener('touchmove', (e) => {
   if (e.touches.length !== 1) return;
+  e.preventDefault();
   const touchX = e.touches[0].clientX;
   const touchY = e.touches[0].clientY;
 
@@ -177,7 +179,7 @@ window.addEventListener('touchmove', (e) => {
 
     previousDragPos = { x: touchX, y: touchY };
   }
-});
+}, { passive: false });
 
 // 5. Carga de Modelo GLTF
 let characterModel;
@@ -281,8 +283,22 @@ function animate() {
 
 animate();
 
-window.addEventListener('resize', () => {
+function updateViewport() {
+  const isMobile = isMobileViewport();
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  camera.fov = isMobile ? 44 : 40;
+  camera.position.set(0, isMobile ? 1.1 : 1.2, isMobile ? 4.8 : 3.8);
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+  renderer.setSize(width, height);
+}
+
+window.addEventListener('resize', updateViewport);
+window.addEventListener('orientationchange', () => {
+  window.setTimeout(updateViewport, 100);
 });
+
+updateViewport();
