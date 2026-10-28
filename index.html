@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miku 3D Experience - Hero Landing</title>
+  <link rel="stylesheet" href="./src/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Canvas WebGL 3D -->
+  <div id="webgl-container"></div>
+
+  <!-- Capa de Interfaz Vocaloid HUD -->
+  <div class="ui-overlay">
+    <header class="cyber-header">
+      <div class="logo">
+        <span class="badge">CV01</span>
+        <span class="logo-text">HATSUNE MIKU</span>
+      </div>
+    </header>
+
+    <div class="interaction-guide" aria-label="Instrucciones de interacción">
+      <span class="guide-line">MOVER · SIGUE EL RITMO</span>
+      <span class="guide-line">ARRASTRAR · GIRAR 360°</span>
+      <span class="guide-line">BARRA ESPACIADORA · SALTAR</span>
+    </div>
+  </div>
+
+  <!-- Mensaje de Error si no encuentra el .glb -->
+  <div id="error-message" hidden></div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
