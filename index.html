@@ -3,28 +3,251 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Miku 3D Experience - Hero Landing</title>
+  <title>Miku 3D Experience - Digital Mirage World Tour</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-  <script type="module" crossorigin src="/miku-jaja-risa-/assets/index.template-DF23r1xW.js"></script>
-  <link rel="stylesheet" crossorigin href="/miku-jaja-risa-/assets/index-4TX6QHAz.css">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #080911;
+      color: #fff;
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Fondo 3D en WebGL */
+    #webgl-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+
+    /* Capa UI que permite clic tras los textos */
+    .ui-overlay {
+      position: relative;
+      z-index: 10;
+      pointer-events: none;
+      min-height: 100vh;
+    }
+
+    .interactive {
+      pointer-events: auto;
+    }
+
+    .cyber-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 3rem;
+      background: linear-gradient(180deg, rgba(8, 9, 17, 0.9) 0%, rgba(8, 9, 17, 0) 100%);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 20;
+    }
+
+    .badge {
+      background: #ff007f;
+      color: #fff;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 0.8rem;
+      padding: 4px 8px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      box-shadow: 0 0 10px #ff007f;
+    }
+
+    .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: 0 0 10px #00f3ff;
+      margin-left: 8px;
+    }
+
+    .hero-content {
+      max-width: 600px;
+      padding: 2rem 4rem;
+      margin-top: 5rem;
+    }
+
+    .interaction-guide {
+      position: fixed;
+      bottom: 2rem;
+      left: 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: rgba(8, 9, 17, 0.75);
+      padding: 1rem 1.2rem;
+      border-left: 3px solid #00f3ff;
+      backdrop-filter: blur(8px);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .guide-line {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      color: #8fa0c0;
+      letter-spacing: 1px;
+    }
+
+    .tour-section {
+      padding: 4rem;
+      max-width: 1200px;
+      margin-top: 15vh;
+    }
+
+    .tour-card {
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: rgba(8, 11, 20, 0.75);
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .tour-card:hover {
+      transform: translateY(-4px);
+      border-color: #00f3ff;
+    }
+
+    .btn-ticket {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid #00f3ff;
+      color: #00f3ff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .btn-ticket:hover {
+      background: #00f3ff;
+      color: #080911;
+      box-shadow: 0 0 15px #00f3ff;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content, .tour-section { padding: 1.5rem; }
+      .interaction-guide { display: none; }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- Contenedor WebGL -->
   <div id="webgl-container"></div>
+
+  <!-- Capa UI -->
   <div class="ui-overlay">
-    <header class="cyber-header">
+    
+    <header class="cyber-header interactive">
       <div class="logo">
         <span class="badge">CV01</span>
         <span class="logo-text">HATSUNE MIKU</span>
       </div>
     </header>
-    <div class="interaction-guide" aria-label="Instrucciones de interacción">
+
+    <main class="hero-content">
+      <p style="color: #ff007f; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 0.5rem;">
+        WORLD TOUR 2026
+      </p>
+      <h1 style="font-family: 'Orbitron', sans-serif; font-size: 3.5rem; color: #fff; margin-bottom: 1rem; line-height: 1;">
+        DIGITAL MIRAGE
+      </h1>
+      <p style="font-size: 1.2rem; color: #a0b2ce; line-height: 1.5;">
+        Concierto en vivo holográfico 3D en tiempo real. Sigue el ritmo y explora la experiencia interactiva.
+      </p>
+    </main>
+
+    <div class="interaction-guide">
       <span class="guide-line">MOVER · SIGUE EL RITMO</span>
       <span class="guide-line">ARRASTRAR · GIRAR 360°</span>
       <span class="guide-line">BARRA ESPACIADORA · SALTAR</span>
     </div>
+
+    <section class="tour-section interactive">
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 2rem; color: #00f3ff; margin-bottom: 2rem;">
+        FECHAS CONFIRMADAS
+      </h2>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
+        <div class="tour-card">
+          <span style="color: #ff007f; font-family: 'Orbitron', sans-serif; font-size: 0.75rem;">ÚLTIMAS ENTRADAS</span>
+          <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: #fff; margin: 0.5rem 0 0.2rem 0;">TOKYO</h3>
+          <p style="color: #8fa0c0;">Ariake Arena</p>
+          <p style="color: #00f3ff; font-weight: 700; margin: 0.8rem 0;">15 - 17 MAYO, 2026</p>
+          <button class="btn-ticket" onclick="openModal('Tokyo - Ariake Arena')">RESERVAR ($120)</button>
+        </div>
+
+        <div class="tour-card">
+          <span style="color: #00f3ff; font-family: 'Orbitron', sans-serif; font-size: 0.75rem;">DISPONIBLE</span>
+          <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: #fff; margin: 0.5rem 0 0.2rem 0;">LOS ANGELES</h3>
+          <p style="color: #8fa0c0;">Peacock Theater</p>
+          <p style="color: #00f3ff; font-weight: 700; margin: 0.8rem 0;">04 - 05 JUNIO, 2026</p>
+          <button class="btn-ticket" onclick="openModal('Los Angeles - Peacock Theater')">RESERVAR ($135)</button>
+        </div>
+
+        <div class="tour-card">
+          <span style="color: #ff007f; font-family: 'Orbitron', sans-serif; font-size: 0.75rem;">ALTA DEMANDA</span>
+          <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: #fff; margin: 0.5rem 0 0.2rem 0;">CDMX</h3>
+          <p style="color: #8fa0c0;">Pepsi Center WTC</p>
+          <p style="color: #00f3ff; font-weight: 700; margin: 0.8rem 0;">12 - 13 JUNIO, 2026</p>
+          <button class="btn-ticket" onclick="openModal('CDMX - Pepsi Center WTC')">RESERVAR ($110)</button>
+        </div>
+      </div>
+    </section>
+
   </div>
-  <div id="error-message" hidden></div>
+
+  <!-- Modal de Compra -->
+  <div id="ticket-modal" class="interactive" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(4,7,15,0.85); z-index: 100; align-items: center; justify-content: center;">
+    <div style="background: #0c1222; border: 1px solid #00f3ff; padding: 2rem; border-radius: 8px; width: 90%; max-width: 400px; position: relative; color: #fff;">
+      <button onclick="closeModal()" style="position: absolute; top: 10px; right: 15px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <h3 id="modal-venue" style="font-family: 'Orbitron', sans-serif; color: #00f3ff; margin-bottom: 1rem;">RESERVA DE ENTRADAS</h3>
+      <form onsubmit="confirmTicket(event)">
+        <label style="display: block; font-size: 0.8rem; margin-bottom: 0.3rem;">CORREO ELECTRÓNICO</label>
+        <input type="email" required style="width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid #00f3ff; color: #fff; margin-bottom: 1rem; box-sizing: border-box; border-radius: 4px;">
+        <button type="submit" style="width: 100%; padding: 12px; background: #ff007f; border: none; color: #fff; font-family: 'Orbitron', sans-serif; cursor: pointer; font-weight: 700; border-radius: 4px;">CONFIRMAR RESERVA</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openModal(venue) {
+      document.getElementById('modal-venue').innerText = venue;
+      document.getElementById('ticket-modal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('ticket-modal').style.display = 'none';
+    }
+    function confirmTicket(e) {
+      e.preventDefault();
+      alert('¡Reserva confirmada! Se enviaron los accesos a tu correo.');
+      closeModal();
+    }
+  </script>
+
+  <!-- Importante: Enlace directo a tu código JS -->
+  <script type="module" src="./src/main.js"></script>
 </body>
 </html>

@@ -26,16 +26,16 @@ renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.4;
 container.appendChild(renderer.domElement);
 
-// 2. Iluminación de Concierto Cyberpunk (Cian / Magenta)
+// 2. Iluminación Cyberpunk
 scene.add(new THREE.AmbientLight(0xffffff, 0.8));
 
-const mainLight = new THREE.DirectionalLight(0x00f3ff, 2.5); // Luz Principal Cian
+const mainLight = new THREE.DirectionalLight(0x00f3ff, 2.5);
 mainLight.position.set(3, 5, 4);
 mainLight.castShadow = true;
 mainLight.shadow.mapSize.set(2048, 2048);
 scene.add(mainLight);
 
-const rimLight = new THREE.DirectionalLight(0xff007f, 3.5); // Luz Trasera Magenta
+const rimLight = new THREE.DirectionalLight(0xff007f, 3.5);
 rimLight.position.set(-4, 3, -2);
 scene.add(rimLight);
 
@@ -43,7 +43,7 @@ const fillLight = new THREE.PointLight(0x00f3ff, 2, 10);
 fillLight.position.set(0, 1, 2.5);
 scene.add(fillLight);
 
-// Floor Grid Estilo Escenario Digital
+// Escenario digital
 const gridHelper = new THREE.GridHelper(20, 30, 0x00f3ff, 0xff007f);
 gridHelper.position.y = 0;
 scene.add(gridHelper);
@@ -56,7 +56,7 @@ floor.rotation.x = -Math.PI / 2;
 floor.receiveShadow = true;
 scene.add(floor);
 
-// 3. Partículas Cyber-Dust en el Fondo
+// 3. Partículas de Fondo
 const particleCount = 200;
 const particleGeometry = new THREE.BufferGeometry();
 const particlePositions = new Float32Array(particleCount * 3);
@@ -77,7 +77,7 @@ const particleMaterial = new THREE.PointsMaterial({
 const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
 scene.add(particleSystem);
 
-// 4. Variables de Control y Eventos
+// 4. Variables de Movimiento e Interacción
 let lastMousePos = { x: 0, y: 0 };
 let lastMouseMoveTime = performance.now();
 let targetDanceSpeed = 0;
@@ -96,7 +96,6 @@ function triggerJump() {
 
 window.addEventListener('keydown', (event) => {
   if (event.code !== 'Space' || event.repeat) return;
-
   event.preventDefault();
   triggerJump();
 });
@@ -139,7 +138,6 @@ window.addEventListener('mousemove', (e) => {
   }
 });
 
-// Touch Support
 window.addEventListener('touchstart', (e) => {
   if (e.touches.length === 1) {
     isDragging = true;
@@ -181,13 +179,13 @@ window.addEventListener('touchmove', (e) => {
   }
 }, { passive: false });
 
-// 5. Carga de Modelo GLTF
+// 5. Carga de Modelo GLTF (Ruta compatible con Vite dev server)
 let characterModel;
 let mixer;
-const modelBasePosition = new THREE.Vector3(0.5, 0, 0); // Desplazado al tercio derecho
+const modelBasePosition = new THREE.Vector3(0.5, 0, 0);
 
 const loader = new GLTFLoader();
-const modelUrl = `${import.meta.env.BASE_URL}modelos/personaje.glb`;
+const modelUrl = `${import.meta.env.BASE_URL}modelos/personaje.glb`.replace('//', '/');
 
 function frameModel(model) {
   const initialBounds = new THREE.Box3();
@@ -275,7 +273,6 @@ function animate() {
     camera.lookAt(characterModel.position.x, 1.0, characterModel.position.z);
   }
 
-  // Rotar sutilmente las partículas de fondo
   particleSystem.rotation.y += 0.0005;
 
   renderer.render(scene, camera);
